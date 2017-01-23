@@ -1,6 +1,6 @@
 # semantive/spark
 
-An [Apache Spark][Spark](http://spark.apache.org) container based on `openjdk` image. Use it in a standalone cluster with the accompanying `docker-compose.yml`, or as a base for more complex recipes.
+An [Apache Spark](http://spark.apache.org) container based on `openjdk` image. Use it in a standalone cluster with the accompanying `docker-compose.yml`, or as a base for more complex recipes.
 
 ## Simple example
 
