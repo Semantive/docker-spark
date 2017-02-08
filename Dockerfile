@@ -25,7 +25,7 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN useradd -ms /bin/bash spark
 
 # HADOOP
-ENV HADOOP_VERSION 2.7.3
+ENV HADOOP_VERSION 2.6.5
 ENV HADOOP_HOME /opt/hadoop-$HADOOP_VERSION
 ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
 ENV PATH $PATH:$HADOOP_HOME/bin
@@ -37,8 +37,8 @@ RUN wget -q -O- --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15
  && chown -R root:root $HADOOP_HOME
 
 # SPARK
-ENV SPARK_VERSION 2.1.0
-ENV SPARK_PACKAGE spark-${SPARK_VERSION}-bin-hadoop2.7
+ENV SPARK_VERSION 1.6.3
+ENV SPARK_PACKAGE spark-${SPARK_VERSION}-bin-hadoop2.6
 ENV SPARK_HOME /home/spark
 ENV SPARK_DIST_CLASSPATH="$HADOOP_HOME/etc/hadoop/*:$HADOOP_HOME/share/hadoop/common/lib/*:$HADOOP_HOME/share/hadoop/common/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/hdfs/lib/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/yarn/lib/*:$HADOOP_HOME/share/hadoop/yarn/*:$HADOOP_HOME/share/hadoop/mapreduce/lib/*:$HADOOP_HOME/share/hadoop/mapreduce/*:$HADOOP_HOME/share/hadoop/tools/lib/*"
 ENV PATH $PATH:${SPARK_HOME}/bin
