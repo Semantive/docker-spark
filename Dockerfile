@@ -23,6 +23,7 @@ RUN rm -rf /var/lib/apt/lists/*
 
 # Create user for Spark
 RUN useradd -ms /bin/bash spark
+RUN useradd -ms /bin/bash hadoop
 
 # HADOOP
 ENV HADOOP_VERSION 2.7.3
@@ -34,7 +35,7 @@ RUN wget -q -O- --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15
   "http://archive.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz" \
   | tar -xz -C /opt/ \
  && rm -rf $HADOOP_HOME/share/doc \
- && chown -R root:root $HADOOP_HOME
+ && chown -R hadoop:hadoop $HADOOP_HOME
 
 # SPARK
 ENV SPARK_VERSION 2.1.0
@@ -43,10 +44,10 @@ ENV SPARK_HOME /home/spark
 ENV SPARK_DIST_CLASSPATH="$HADOOP_HOME/etc/hadoop/*:$HADOOP_HOME/share/hadoop/common/lib/*:$HADOOP_HOME/share/hadoop/common/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/hdfs/lib/*:$HADOOP_HOME/share/hadoop/hdfs/*:$HADOOP_HOME/share/hadoop/yarn/lib/*:$HADOOP_HOME/share/hadoop/yarn/*:$HADOOP_HOME/share/hadoop/mapreduce/lib/*:$HADOOP_HOME/share/hadoop/mapreduce/*:$HADOOP_HOME/share/hadoop/tools/lib/*"
 ENV PATH $PATH:${SPARK_HOME}/bin
 RUN wget -q -O- --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15 -t 0 \
-  "http://d3kbcqa49mib13.cloudfront.net/${SPARK_PACKAGE}.tgz" \
+  "http://mirrors.advancedhosters.com/apache/spark/spark-${SPARK_VERSION}/${SPARK_PACKAGE}.tgz" \
   | tar xz --strip 1 -C $SPARK_HOME/ \
  && chown -R spark:spark $SPARK_HOME
 
-USER spark
+USER root
 WORKDIR $SPARK_HOME
-CMD ["bin/spark-class", "org.apache.spark.deploy.master.Master"]
+CMD ["su", "-c", "bin/spark-class org.apache.spark.deploy.master.Master", "spark"]
